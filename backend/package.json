@@ -11,6 +11,7 @@
     "start:production": "NODE_ENV=production dotenv -e .env.production -- node -r ./env-loader.js dist/server.js",
     "build": "tsc",
     "mock-server": "node mocks/server.js",
+    "start:prod": "pm2 start ecosystem.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
