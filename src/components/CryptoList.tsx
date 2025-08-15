@@ -1,12 +1,33 @@
 import { Badge, DataTable } from "@shopify/polaris"
-import React from "react"
+import React, { memo, useCallback, useEffect, useRef } from "react"
+import { cryptocurrencyApi } from "../api/cryptocurrencyApi"
+import { useApi } from "../hooks/useApi"
 import type { Cryptocurrency } from "../types/cryptoList"
+import { debounce } from "../utils/debounce"
+import ErrorBanner from "./ErrorBanner"
+import LoadingSkeleton from "./LoadingSkeleton"
 
 interface CryptoListProps {
-  cryptocurrencies: Cryptocurrency[]
+  searchValue?: string
 }
 
-const CryptoList: React.FC<CryptoListProps> = ({ cryptocurrencies }) => {
+const CryptoList: React.FC<CryptoListProps> = memo(({ searchValue }) => {
+  const { data: cryptocurrencies, loading, error, setError, fetchData } = useApi<Cryptocurrency>()
+
+  const fetchDataWithUrl = useCallback(
+    (searchValue?: string) => {
+      const url = searchValue ? cryptocurrencyApi.search(searchValue) : cryptocurrencyApi.getAll()
+      fetchData(url)
+    },
+    [fetchData]
+  )
+
+  const debouncedFetchDataRef = useRef(debounce(fetchDataWithUrl, 500))
+
+  useEffect(() => {
+    debouncedFetchDataRef.current(searchValue)
+  }, [searchValue])
+
   const rows = cryptocurrencies.map((crypto) => [
     crypto.name || "",
     crypto.symbol || "",
@@ -18,6 +39,14 @@ const CryptoList: React.FC<CryptoListProps> = ({ cryptocurrencies }) => {
     crypto.volume_24h,
   ])
 
+  if (loading) {
+    return <LoadingSkeleton />
+  }
+
+  if (error) {
+    return <ErrorBanner error={error} onDismiss={() => setError(null)} />
+  }
+
   return (
     <DataTable
       columnContentTypes={["text", "text", "text", "text", "text", "text"]}
@@ -26,6 +55,6 @@ const CryptoList: React.FC<CryptoListProps> = ({ cryptocurrencies }) => {
       sortable={[false, false, false, false, false, false]}
     />
   )
-}
+})
 
 export default CryptoList

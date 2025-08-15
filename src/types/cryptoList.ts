@@ -2,8 +2,8 @@ export interface Cryptocurrency {
   id: string
   name: string
   symbol: string
-  price: string // 價格
-  change_24h: string // 24小時價格變化
-  market_cap: string // 市值
-  volume_24h: string // 24小時成交量
+  price: string // Price
+  change_24h: string // 24h Price Change
+  market_cap: string // Market Cap
+  volume_24h: string // 24h Trading Volume
 }
