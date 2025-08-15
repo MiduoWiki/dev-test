@@ -1,0 +1,55 @@
+/* App-specific styles that complement Polaris */
+
+.crypto-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.crypto-table th,
+.crypto-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.crypto-table th {
+  background-color: #f9f9f9;
+  font-weight: bold;
+}
+
+.crypto-change-positive {
+  color: #008000;
+}
+
+.crypto-change-negative {
+  color: #d82323;
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+  .crypto-table th,
+  .crypto-table td {
+    padding: 8px;
+    font-size: 14px;
+  }
+  
+  .Polaris-Page-Header {
+    padding: 16px;
+  }
+  
+  .Polaris-Card {
+    margin: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .crypto-table th,
+  .crypto-table td {
+    padding: 6px;
+    font-size: 12px;
+  }
+  
+  .Polaris-TextField {
+    font-size: 14px;
+  }
+}
