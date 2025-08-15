@@ -25,7 +25,8 @@
     "mongoose": "^8.17.1",
     "mysql2": "^3.14.3",
     "node-cron": "^4.2.1",
-    "sequelize": "^6.37.7"
+    "sequelize": "^6.37.7",
+    "xss": "^1.0.15"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",

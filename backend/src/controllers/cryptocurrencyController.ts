@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Cryptocurrency from '../models/Cryptocurrency';
+import xss from 'xss';
 
 // Get all cryptocurrencies
 export const getCryptocurrencies = async (req: Request, res: Response): Promise<void> => {
@@ -40,8 +41,11 @@ export const searchCryptocurrencies = async (req: Request, res: Response): Promi
       return;
     }
     
+    // XSS filtering
+    const sanitizedQuery = xss(query.toString());
+    const searchTerm = sanitizedQuery.toLowerCase();
+    
     const sequelize = require('sequelize');
-    const searchTerm = query.toString().toLowerCase();
     const results = await Cryptocurrency.findAll({
       where: {
         [sequelize.Op.or]: [
